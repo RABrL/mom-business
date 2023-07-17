@@ -1,72 +1,77 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./app/**/*.{js,ts,jsx,tsx,mdx}'],
-  darkMode: 'class',
+  darkMode: ['class'],
+  content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    textColor: (theme) => theme('colors'),
+    container: {
+      center: true,
+      padding: '2rem',
+      screens: {
+        '2xl': '1400px'
+      }
+    },
     extend: {
-      fontFamily: {
-        sans: ['Varela Round', 'sans-serif']
+      screens: {
+        xs: '380px'
+      },
+      flex: {
+        full: '0 0 100%'
       },
       colors: {
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
         primary: {
-          lighter: '#41ba7f',
-          light: '#29b16f',
-          DEFAULT: '#12A960',
-          dark: '#109856',
-          darker: '#0e874c'
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))'
         },
         secondary: {
-          lighter: '#ffbb32',
-          light: '#ffb319',
-          DEFAULT: '#FFAB00',
-          dark: '#e59900',
-          darker: '#cc8800'
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))'
         },
-        info: {
-          lighter: '#D0F2FF',
-          light: '#74CAFF',
-          DEFAULT: '#1890FF',
-          dark: '#0C53B7',
-          darker: '#04297A'
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))'
         },
-        success: {
-          lighter: '#E9FCD4',
-          light: '#AAF27F',
-          DEFAULT: '#54D62C',
-          dark: '#229A16',
-          darker: '#08660D'
+        muted: {
+          DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))'
         },
-        warning: {
-          lighter: '#FFF7CD',
-          light: '#FFE16A',
-          DEFAULT: '#FFC107',
-          dark: '#B78103',
-          darker: '#7A4F01'
+        accent: {
+          DEFAULT: 'hsl(var(--accent))',
+          foreground: 'hsl(var(--accent-foreground))'
         },
-        error: {
-          lighter: '#FFE7D9',
-          light: '#FFA48D',
-          DEFAULT: '#FF4842',
-          dark: '#B72136',
-          darker: '#7A0C2E'
+        popover: {
+          DEFAULT: 'hsl(var(--popover))',
+          foreground: 'hsl(var(--popover-foreground))'
         },
-        scale: {
-          100: '#fbfcfd',
-          200: '#f8f9fa',
-          300: '#f1f3f5',
-          400: '#eceef0',
-          500: '#e6e8eb',
-          600: '#dfe3e6',
-          700: '#d7dbdf',
-          800: '#c1c8cd',
-          900: '#889096',
-          1000: '#7e868c',
-          1100: '#687076',
-          1200: '#11181c'
+        card: {
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))'
         }
+      },
+      borderRadius: {
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)'
+      },
+      keyframes: {
+        'accordion-down': {
+          from: { height: 0 },
+          to: { height: 'var(--radix-accordion-content-height)' }
+        },
+        'accordion-up': {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: 0 }
+        }
+      },
+      animation: {
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out'
       }
     }
   },
-  plugins: []
+  plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')]
 }

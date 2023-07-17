@@ -4,7 +4,7 @@ import { createServerActionClient } from '@supabase/auth-helpers-nextjs'
 import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 
-export default async function ServerAction() {
+export default async function ServerAction () {
   const addTodo = async (formData: FormData) => {
     'use server'
     const title = formData.get('title')
@@ -23,7 +23,7 @@ export default async function ServerAction() {
 
   return (
     <form action={addTodo}>
-      <input name="title" />
+      <input name='title' />
     </form>
   )
 }
