@@ -13,7 +13,7 @@ export default function SignIn () {
       </div>
       <div>
         <form action=''>
-          <Button className='bg-'>
+          <Button>
             Ingresar con github
           </Button>
         </form>
