@@ -1,4 +1,4 @@
-import Button from '@/components/ui/Button'
+import { Button } from '@/components/ui/Button'
 
 export default function SignIn () {
   return (
@@ -13,7 +13,8 @@ export default function SignIn () {
       </div>
       <div>
         <form action=''>
-          <Button>Ingresar con github
+          <Button className='bg-'>
+            Ingresar con github
           </Button>
         </form>
       </div>
