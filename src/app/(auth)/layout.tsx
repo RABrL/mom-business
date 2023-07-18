@@ -5,6 +5,9 @@ export default function AuthLayout({
 }: {
   children: React.ReactNode
 }) {
+  const a = {
+    b: 3
+  }
   return (
     <>
       <nav className='absolute top-0 w-full px-2 pt-4 mx-auto sm:px-8 sm:pt-6 lg:px-10'>
