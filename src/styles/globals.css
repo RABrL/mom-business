@@ -4,8 +4,8 @@
  
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 206, 30.0%, 98.8%; /* slate 100*/
+    --foreground: 206, 24.0%, 9.0%; /* slate 1200*/
  
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
@@ -37,11 +37,11 @@
   }
  
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 200, 7.0%, 8.8%; /* slateDark 100*/
+    --foreground: 210, 6.0%, 93.0%; /* slateDark 1200*/
  
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 206, 6.0%, 63.0%; /* slateDark 1100*/
+    --muted-foreground: 206, 6.0%, 63.0%; /* slateDark 1100*/
  
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;

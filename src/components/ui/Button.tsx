@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { Ring } from '@uiball/loaders'
+import { Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const buttonVariants = cva(
@@ -34,7 +34,7 @@ const buttonVariants = cva(
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-  VariantProps<typeof buttonVariants> {
+    VariantProps<typeof buttonVariants> {
   isLoading?: boolean
 }
 
@@ -47,8 +47,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={isLoading}
         {...props}
       >
-        {isLoading ? <Ring speed={2} size={22} color='black' lineWeight={5} /> : null}
-        {children}
+        {isLoading ? (
+          <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+        ) : (
+          children
+        )}
       </button>
     )
   }

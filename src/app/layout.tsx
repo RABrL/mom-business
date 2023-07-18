@@ -44,11 +44,12 @@ export default function RootLayout ({ children }: RootLayoutProps) {
   return (
     <html lang='es' suppressHydrationWarning>
       <head />
-      <body className={cn(
-        'min-h-screen bg-background font-sans antialiased',
-        fontVarela.variable,
-        fontInter.variable
-      )}
+      <body
+        className={cn(
+          'min-h-screen bg-background font-sans antialiased',
+          fontVarela.variable,
+          fontInter.variable
+        )}
       >
         <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
           {children}

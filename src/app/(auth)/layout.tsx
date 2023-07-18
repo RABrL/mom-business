@@ -1,4 +1,6 @@
-export default function AuthLayout ({
+import ToggleTheme from '@/components/ToggleTheme'
+
+export default function AuthLayout({
   children
 }: {
   children: React.ReactNode
@@ -9,7 +11,8 @@ export default function AuthLayout ({
         <span>Logo</span>
         Nombre App
       </nav>
-      <main className='flex justify-center flex-1 pt-12 pb-8 bg-gray-100 h-screen px-2'>
+      <ToggleTheme />
+      <main className='flex justify-center bg-background flex-1 pt-12 pb-8 h-screen px-2'>
         <section className='flex flex-1 flex-col align-center max-w-sm'>
           {children}
         </section>
