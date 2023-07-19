@@ -10,7 +10,8 @@
     }
   },
   "formatter": {
-    "indentStyle": "space"
+    "indentStyle": "space",
+    "enabled": true
   },
   "javascript": {
     "formatter": {
