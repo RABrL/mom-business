@@ -1,11 +1,11 @@
 'use client'
 
-import { useTheme } from 'next-themes'
-import { Sun, Moon } from 'lucide-react'
-import { Button, buttonVariants } from './ui/Button'
 import { useMounted } from '@/hooks/useMounted'
-import { Skeleton } from './ui/Skeleton'
 import { cn } from '@/lib/utils'
+import { Moon, Sun } from 'lucide-react'
+import { useTheme } from 'next-themes'
+import { Button, buttonVariants } from './ui/Button'
+import { Skeleton } from './ui/Skeleton'
 
 const ToggleTheme = () => {
   const { setTheme, theme } = useTheme()
@@ -40,7 +40,6 @@ const ToggleTheme = () => {
       variant='ghost'
       size='icon'
     >
-      {/* moon icon */}
       {theme === 'dark' ? (
         <Sun className='group-hover:scale-110 ' size={22} />
       ) : (
