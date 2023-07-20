@@ -16,7 +16,7 @@ const ToggleTheme = () => {
       <div
         className={cn(
           buttonVariants({ size: 'icon' }),
-          'flex content-center bg-transparent'
+          'flex content-center bg-transparent hover:bg-transparent'
         )}
       >
         <Skeleton className='text-muted-foreground w-6 h-6 rounded-full' />
