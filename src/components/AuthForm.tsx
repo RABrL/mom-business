@@ -39,7 +39,13 @@ const AuthForm: FC<AuthFormProps> = ({ signIn }) => {
 
   const handleSignInWithOAuth = async () => {
     await supabase.auth.signInWithOAuth({
-      provider: 'google'
+      provider: 'google',
+      options: {
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent'
+        }
+      }
     })
   }
 
@@ -50,15 +56,28 @@ const AuthForm: FC<AuthFormProps> = ({ signIn }) => {
         const { data, error } = await supabase.auth.signInWithPassword(
           form.getValues()
         )
-        if (error) {
-          toast.error(error.message)
+        if (data) {
+          router.push('/')
+          router.refresh()
         }
+        toast.error(error?.message)
       } catch (error) {
         console.log(error)
       }
     } else {
       try {
-        const result = await supabase.auth.signUp(form.getValues())
+        const { email, password } = form.getValues()
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            emailRedirectTo: `${location.origin}/auth/callback`
+          }
+        })
+        console.log({ data, error })
+        if (error) {
+          toast.error(error.message)
+        }
       } catch (error) {
         console.log(error)
       }
