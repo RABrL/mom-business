@@ -2,12 +2,13 @@ import type { Metadata } from 'next'
 
 import '@/styles/globals.css'
 
-import { siteConfig } from '@/config/site'
-import { fontVarela, fontInter } from '@/lib/fonts'
-import { cn } from '@/lib/utils'
-import { Toaster } from '@/components/ui/Toaster'
+import QueryProvider from '@/components/QueryProvider'
 import { TailwindIndicator } from '@/components/TailwindIndicator'
 import { ThemeProvider } from '@/components/ThemeProvider'
+import { Toaster } from '@/components/ui/Toaster'
+import { siteConfig } from '@/config/site'
+import { fontInter, fontVarela } from '@/lib/fonts'
+import { cn } from '@/lib/utils'
 
 export const metadata: Metadata = {
   title: {
@@ -40,7 +41,7 @@ interface RootLayoutProps {
   children: React.ReactNode
 }
 
-export default function RootLayout ({ children }: RootLayoutProps) {
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang='es' suppressHydrationWarning>
       <head />
@@ -52,7 +53,7 @@ export default function RootLayout ({ children }: RootLayoutProps) {
         )}
       >
         <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
-          {children}
+          <QueryProvider>{children}</QueryProvider>
           <TailwindIndicator />
         </ThemeProvider>
         <Toaster />
