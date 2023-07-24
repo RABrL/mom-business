@@ -15,7 +15,7 @@ const ButtonLogOut: FC<ButtonLogOutProps> = ({}) => {
     await supabase.auth.signOut()
     router.refresh()
   }
-  return <Button onClick={logOut}>Log Out</Button>
+  return <Button onClick={logOut}>Cerrar sesión</Button>
 }
 
 export default ButtonLogOut
