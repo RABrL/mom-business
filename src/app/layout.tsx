@@ -2,9 +2,8 @@ import type { Metadata } from 'next'
 
 import '@/styles/globals.css'
 
-import QueryProvider from '@/components/QueryProvider'
+import Providers from '@/components/Providers'
 import { TailwindIndicator } from '@/components/TailwindIndicator'
-import { ThemeProvider } from '@/components/ThemeProvider'
 import { Toaster } from '@/components/ui/Toaster'
 import { siteConfig } from '@/config/site'
 import { fontInter, fontVarela } from '@/lib/fonts'
@@ -52,10 +51,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
           fontInter.variable
         )}
       >
-        <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
-          <QueryProvider>{children}</QueryProvider>
+        <Providers attribute='class' defaultTheme='system' enableSystem>
+          {children}
           <TailwindIndicator />
-        </ThemeProvider>
+        </Providers>
         <Toaster />
       </body>
     </html>
