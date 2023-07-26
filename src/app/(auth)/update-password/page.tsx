@@ -1,7 +1,22 @@
-import AuthForm from '@/components/AuthForm'
+'use client'
+
+import { Button } from '@/components/ui/Button'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from '@/components/ui/Form'
+import { Input } from '@/components/ui/Input'
+import { NewPasswordSchema, NewPasswordValidator } from '@/lib/validators/auth'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { FC, FormEvent } from 'react'
+import { FC } from 'react'
+import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
 interface pageProps {}
@@ -9,22 +24,24 @@ interface pageProps {}
 const page: FC<pageProps> = ({}) => {
   const router = useRouter()
   const supabase = createClientComponentClient()
-  const form = useForm<ResetPasswordSchema>({
-    resolver: zodResolver(ResetPasswordValidator),
+
+  const form = useForm<NewPasswordSchema>({
+    resolver: zodResolver(NewPasswordValidator),
     defaultValues: {
-      password: ''
+      password: '',
+      confirm: ''
     }
   })
 
-  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const onSubmit = async (values: NewPasswordSchema) => {
     const { data, error } = await supabase.auth.updateUser({
-      password
+      password: values.password
     })
-    if (!error) {
-      router.push('/')
+    if (error) {
+      toast.error('Ups! Ha ocurrido un error')
+      return
     }
-    toast.error(error?.message)
+    router.push('/')
   }
 
   return (
@@ -38,7 +55,49 @@ const page: FC<pageProps> = ({}) => {
         </h2>
       </div>
       <div>
-        <AuthForm />
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className='flex flex-col gap-4'
+          >
+            <FormField
+              control={form.control}
+              name='password'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Contraseña nueva</FormLabel>
+                  <FormControl>
+                    <Input type='password' placeholder='••••••••' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='confirm'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Escribe la misma contraseña</FormLabel>
+                  <FormControl>
+                    <Input type='password' placeholder='••••••••' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button
+              disabled={
+                !form.getValues().password ||
+                !form.getValues().confirm
+              }
+              isLoading={form.formState.isSubmitting}
+              type='submit'
+            >
+              Actualizar contraseña
+            </Button>
+          </form>
+        </Form>
       </div>
       <div className='self-center my-8 text-sm'>
         <span className='text-muted-foreground'>Don't have an account?</span>{' '}

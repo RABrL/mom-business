@@ -3,6 +3,7 @@
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -14,10 +15,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { FC, FormEvent, HtmlHTMLAttributes, useState } from 'react'
+import { FC, HtmlHTMLAttributes } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { Button } from './ui/Button'
+import { AuthApiError } from '@supabase/supabase-js'
 
 interface AuthFormProps extends HtmlHTMLAttributes<HTMLFormElement> {
   signIn?: boolean
@@ -26,7 +28,6 @@ interface AuthFormProps extends HtmlHTMLAttributes<HTMLFormElement> {
 const AuthForm: FC<AuthFormProps> = ({ signIn }) => {
   const router = useRouter()
   const supabase = createClientComponentClient()
-  const [isLoading, setIsLoading] = useState(false)
 
   const form = useForm<AuthFormSchema>({
     resolver: zodResolver(AuthFormValidator),
@@ -35,27 +36,25 @@ const AuthForm: FC<AuthFormProps> = ({ signIn }) => {
       password: ''
     }
   })
-
-  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+  const onSubmit = async (values: AuthFormSchema) => {
     if (signIn) {
-      setIsLoading(true)
-      supabase.auth
-        .signInWithPassword(form.getValues())
-        .then(({ data, error }) => {
-          if (error) {
-            toast.error(error.message)
-            return
-          }
-          router.push('/')
-          router.refresh()
-        })
-        .finally(() => {
-          setIsLoading(false)
-        })
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword(values)
+        if (error) {
+          throw error
+        }
+        router.push('/')
+        router.refresh()
+      } catch (error) {
+        if(error instanceof AuthApiError){
+          toast.error('Credenciales incorrectas')
+          return
+        }
+        toast.error('Ha ocurrido un error, intentelo de nuevo')
+      }
     } else {
       try {
-        const { email, password } = form.getValues()
+        const { email, password } = values
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
@@ -75,7 +74,10 @@ const AuthForm: FC<AuthFormProps> = ({ signIn }) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={onSubmit} className='flex flex-col gap-4'>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className='flex flex-col gap-4'
+      >
         <FormField
           control={form.control}
           name='email'
@@ -84,7 +86,6 @@ const AuthForm: FC<AuthFormProps> = ({ signIn }) => {
               <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input
-                  type='email'
                   placeholder='ejemplo@correo.com'
                   {...field}
                 />
@@ -110,15 +111,20 @@ const AuthForm: FC<AuthFormProps> = ({ signIn }) => {
               <FormControl>
                 <Input type='password' placeholder='••••••••' {...field} />
               </FormControl>
+              <FormDescription>
+                Debe contener al menos 8 caracteres
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <div></div>
+        <FormMessage />
         <Button
-          isLoading={isLoading}
+          isLoading={form.formState.isSubmitting}
           disabled={
-            form.getValues().email === '' || form.getValues().password === '' || isLoading
+            !form.getValues().email ||
+            !form.getValues().password ||
+            form.formState.isSubmitting
           }
           type='submit'
           className='w-full'
