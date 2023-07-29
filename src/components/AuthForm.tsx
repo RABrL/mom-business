@@ -10,24 +10,24 @@ import {
   FormMessage
 } from '@/components/ui/Form'
 import { Input } from '@/components/ui/Input'
-import { AuthFormSchema, AuthFormValidator } from '@/lib/validators/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { AuthApiError } from '@supabase/supabase-js'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { FC, HtmlHTMLAttributes } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { Button } from './ui/Button'
-import { AuthApiError } from '@supabase/supabase-js'
 
+import { AuthFormValidator, type AuthFormSchema } from '@/lib/validators/auth'
 interface AuthFormProps extends HtmlHTMLAttributes<HTMLFormElement> {
   signIn?: boolean
 }
 
 const AuthForm: FC<AuthFormProps> = ({ signIn }) => {
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const supabase = createClientComponentClient<Database>()
 
   const form = useForm<AuthFormSchema>({
     resolver: zodResolver(AuthFormValidator),
@@ -43,10 +43,9 @@ const AuthForm: FC<AuthFormProps> = ({ signIn }) => {
         if (error) {
           throw error
         }
-        router.push('/')
         router.refresh()
       } catch (error) {
-        if(error instanceof AuthApiError){
+        if (error instanceof AuthApiError) {
           toast.error('Credenciales incorrectas')
           return
         }
@@ -59,15 +58,22 @@ const AuthForm: FC<AuthFormProps> = ({ signIn }) => {
           email,
           password,
           options: {
-            emailRedirectTo: `${location.origin}/auth/callback`
+            emailRedirectTo: `${location.origin}/api/auth/callback`
           }
         })
-        console.log({ data, error })
         if (error) {
-          toast.error(error.message)
+          throw error
         }
+        toast.success('Registro exitoso', {
+          description: `Hemos enviado un link de verificación a ${email}`
+        })
+        router.refresh()
       } catch (error) {
-        console.log(error)
+        if (error instanceof AuthApiError) {
+          toast.error('Credenciales incorrectas')
+          return
+        }
+        toast.error('Ha ocurrido un error, intentelo de nuevo')
       }
     }
   }
@@ -85,10 +91,7 @@ const AuthForm: FC<AuthFormProps> = ({ signIn }) => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input
-                  placeholder='ejemplo@correo.com'
-                  {...field}
-                />
+                <Input placeholder='ejemplo@correo.com' {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

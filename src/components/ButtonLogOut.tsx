@@ -9,7 +9,7 @@ interface ButtonLogOutProps {}
 
 const ButtonLogOut: FC<ButtonLogOutProps> = ({}) => {
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const supabase = createClientComponentClient<Database>()
 
   const logOut = async () => {
     await supabase.auth.signOut()

@@ -7,7 +7,7 @@ import { FC } from 'react'
 interface ProvidersProps extends ThemeProviderProps {}
 
 const Providers: FC<ProvidersProps> = ({ children, ...props }) => {
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient<Database>()
   return (
     <NextThemesProvider {...props}>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>

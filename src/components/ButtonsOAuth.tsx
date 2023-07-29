@@ -8,17 +8,11 @@ import Icons from './ui/Icons'
 interface ButtonsOAuthProps {}
 
 const ButtonsOAuth: FC<ButtonsOAuthProps> = ({}) => {
-  const supabase = createClientComponentClient()
+  const supabase = createClientComponentClient<Database>()
 
   const handleSignInWithOAuth = async () => {
     await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        queryParams: {
-          access_type: 'offline',
-          prompt: 'consent'
-        }
-      }
+      provider: 'google'
     })
   }
   return (

@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
 export default async function SignUp() {
-  const supabase = createServerComponentClient({ cookies })
+  const supabase = createServerComponentClient<Database>({ cookies })
   const {
     data: { user }
   } = await supabase.auth.getUser()

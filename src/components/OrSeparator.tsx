@@ -1,4 +1,4 @@
-import { Separator } from "@/components/ui/Separator"
+import { Separator } from '@/components/ui/Separator'
 
 const OrSeparator = ({}) => {
   return (
@@ -7,7 +7,9 @@ const OrSeparator = ({}) => {
         <Separator />
       </div>
       <div className='relative flex justify-center text-sm'>
-        <span className='px-2 bg-background text-background-foreground'>ó</span>
+        <span className='px-2 bg-background text-background-foreground'>
+        ó
+        </span>
       </div>
     </div>
   )

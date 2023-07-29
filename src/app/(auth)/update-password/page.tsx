@@ -23,7 +23,7 @@ interface pageProps {}
 
 const page: FC<pageProps> = ({}) => {
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const supabase = createClientComponentClient<Database>()
 
   const form = useForm<NewPasswordSchema>({
     resolver: zodResolver(NewPasswordValidator),
@@ -33,15 +33,16 @@ const page: FC<pageProps> = ({}) => {
     }
   })
 
-  const onSubmit = async (values: NewPasswordSchema) => {
+  const onSubmit = async ({ password: new_password }: NewPasswordSchema) => {
     const { data, error } = await supabase.auth.updateUser({
-      password: values.password
+      password: new_password
     })
     if (error) {
       toast.error('Ups! Ha ocurrido un error')
       return
     }
-    router.push('/')
+    toast.success('Tu contraseña ha sido actualizada')
+    router.refresh()
   }
 
   return (
@@ -87,10 +88,7 @@ const page: FC<pageProps> = ({}) => {
               )}
             />
             <Button
-              disabled={
-                !form.getValues().password ||
-                !form.getValues().confirm
-              }
+              disabled={!form.getValues().password || !form.getValues().confirm}
               isLoading={form.formState.isSubmitting}
               type='submit'
             >

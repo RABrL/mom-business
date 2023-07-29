@@ -19,7 +19,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { FC, FormEvent } from 'react'
+import { FC } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
@@ -27,7 +27,7 @@ interface pageProps {}
 
 const page: FC<pageProps> = ({}) => {
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const supabase = createClientComponentClient<Database>()
 
   const form = useForm<ResetPasswordSchema>({
     resolver: zodResolver(ResetPasswordValidator),
@@ -36,14 +36,19 @@ const page: FC<pageProps> = ({}) => {
     }
   })
 
-  const onSubmit = async () => {
-    const { data, error } = await supabase.auth.resetPasswordForEmail(
-      form.getValues().email
-    )
-    if (!error) {
-      router.push('/update-password')
+  const onSubmit = async ({ email }: ResetPasswordSchema) => {
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${location.origin}/api/auth/callback?next=/update-password`
+    })
+    if (error) {
+      toast.error(error?.message)
+      return
     }
-    toast.error(error?.message)
+    toast.success(`Enviamos un link a ${email}`, {
+      description: 'Revisalo para continuar'
+    })
+    form.reset()
+    router.refresh()
   }
 
   return (
@@ -59,7 +64,10 @@ const page: FC<pageProps> = ({}) => {
       </div>
       <div className='flex flex-col gap-5'>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-4'>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className='flex flex-col gap-4'
+          >
             <FormField
               control={form.control}
               name='email'

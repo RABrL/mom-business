@@ -1,0 +1,130 @@
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[]
+
+export interface Database {
+  public: {
+    Tables: {
+      categories: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: number
+          name: string
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: number
+          name: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: number
+          name?: string
+        }
+        Relationships: []
+      }
+      products: {
+        Row: {
+          bar_code: string | null
+          category_id: number | null
+          created_at: string | null
+          description: string | null
+          id: number
+          name: string
+          profit: number
+          stock: number
+          unit_cost: number
+          unit_price: number
+          updated_at: string | null
+        }
+        Insert: {
+          bar_code?: string | null
+          category_id?: number | null
+          created_at?: string | null
+          description?: string | null
+          id?: number
+          name: string
+          profit: number
+          stock: number
+          unit_cost: number
+          unit_price: number
+          updated_at?: string | null
+        }
+        Update: {
+          bar_code?: string | null
+          category_id?: number | null
+          created_at?: string | null
+          description?: string | null
+          id?: number
+          name?: string
+          profit?: number
+          stock?: number
+          unit_cost?: number
+          unit_price?: number
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_category_id_fkey"
+            columns: ["category_id"]
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          id: string
+          last_name: string | null
+          name: string | null
+          updated_at: string | null
+          username: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          id: string
+          last_name?: string | null
+          name?: string | null
+          updated_at?: string | null
+          username?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          id?: string
+          last_name?: string | null
+          name?: string | null
+          updated_at?: string | null
+          username?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_id_fkey"
+            columns: ["id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      [_ in never]: never
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
+}
