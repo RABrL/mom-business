@@ -1,50 +1,27 @@
 'use client'
 
-import { useMounted } from '@/hooks/useMounted'
-import { cn } from '@/lib/utils'
 import { Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
-import { Button, buttonVariants } from './ui/Button'
-import { Skeleton } from './ui/Skeleton'
+import { Button } from './ui/Button'
 
 const ToggleTheme = () => {
   const { setTheme, theme } = useTheme()
-  const mounted = useMounted()
-
-  if (!mounted) {
-    return (
-      <div
-        className={cn(
-          buttonVariants({ size: 'icon' }),
-          'flex content-center bg-transparent hover:bg-transparent'
-        )}
-      >
-        <Skeleton className='text-muted-foreground w-6 h-6 rounded-full' />
-      </div>
-    )
-  }
-
-  const handleTheme = () => {
-    if (theme === 'dark') {
-      setTheme('light')
-    } else {
-      setTheme('dark')
-    }
-  }
 
   return (
     <Button
-      onClick={() => handleTheme()}
-      className='group'
       aria-label='Toggle dark mode'
       variant='ghost'
       size='icon'
+      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
     >
-      {theme === 'dark' ? (
-        <Sun className='group-hover:scale-110 ' size={22} />
-      ) : (
-        <Moon className='group-hover:scale-110' size={22} />
-      )}
+      <Sun
+        aria-hidden='true'
+        className='h-5 w-5 scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90'
+      />
+      <Moon
+        aria-hidden='true'
+        className='absolute h-5 w-5 scale-0 rotate-0 transition-all dark:scale-100 dar:rotate-90'
+      />
     </Button>
   )
 }
