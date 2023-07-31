@@ -11,21 +11,39 @@ import {
 } from '@/components/ui/Form'
 import { Input } from '@/components/ui/Input'
 import { Separator } from '@/components/ui/Separator'
-import { type NewPasswordSchema, NewPasswordValidator } from '@/lib/validators/auth'
+import {
+  NewPasswordValidator,
+  type NewPasswordSchema
+} from '@/lib/validators/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { useRouter } from 'next/navigation'
 import { FC } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
-interface UpdatePasswordFormProps {}
+interface UpdatePasswordFormProps {
+  /**
+   * Update password component for forgot password
+   */
+  isForgotPassword?: boolean
+}
 
-const UpdatePasswordForm: FC<UpdatePasswordFormProps> = ({}) => {
-  const router = useRouter()
+const UpdatePasswordForm: FC<UpdatePasswordFormProps> = ({ isForgotPassword }) => {
   const supabase = createClientComponentClient<Database>()
 
-  const onSubmit = async ({ password: new_password }: NewPasswordSchema) => {
+  const form = useForm<NewPasswordSchema>({
+    resolver: zodResolver(NewPasswordValidator),
+    defaultValues: {
+      actual_password: '',
+      new_password: '',
+      confirm: ''
+    }
+  })
+
+  const onSubmit = async ({ actual_password, new_password }: NewPasswordSchema) => {
+    /* if(isFromEmail) {
+      await supabase.from('users').select('*').eq('email', supabase.auth.user()?.email)
+    } */
     const { data, error } = await supabase.auth.updateUser({
       password: new_password
     })
@@ -34,15 +52,11 @@ const UpdatePasswordForm: FC<UpdatePasswordFormProps> = ({}) => {
       return
     }
     toast.success('Tu contraseña ha sido actualizada')
-    router.push('/')
-  }
-  const form = useForm<NewPasswordSchema>({
-    resolver: zodResolver(NewPasswordValidator),
-    defaultValues: {
-      password: '',
-      confirm: ''
+    if (isForgotPassword) {
+      await supabase.auth.signOut()
+      import('next/navigation').then(({ useRouter }) => useRouter().refresh())
     }
-  })
+  }
 
   return (
     <Form {...form}>
@@ -50,9 +64,24 @@ const UpdatePasswordForm: FC<UpdatePasswordFormProps> = ({}) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className='flex flex-col gap-4'
       >
+        {!isForgotPassword && (
+          <FormField
+            control={form.control}
+            name='actual_password'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Contraseña actual</FormLabel>
+                <FormControl>
+                  <Input type='password' placeholder='••••••••' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
         <FormField
           control={form.control}
-          name='password'
+          name='new_password'
           render={({ field }) => (
             <FormItem>
               <FormLabel>Contraseña nueva</FormLabel>
@@ -78,7 +107,11 @@ const UpdatePasswordForm: FC<UpdatePasswordFormProps> = ({}) => {
         />
         <Separator />
         <Button
-          disabled={!form.getValues().password || !form.getValues().confirm}
+          disabled={
+            !form.getValues().new_password ||
+            !form.getValues().confirm ||
+            (isForgotPassword ? false : !form.getValues().actual_password)
+          }
           isLoading={form.formState.isSubmitting}
           type='submit'
         >

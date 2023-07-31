@@ -1,9 +1,18 @@
 import UpdatePasswordForm from '@/components/UpdatePasswordForm'
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 import { FC } from 'react'
-
 interface pageProps {}
 
-const page: FC<pageProps> = ({}) => {
+const page: FC<pageProps> = async ({}) => {
+  const supabase = createServerComponentClient<Database>({ cookies })
+  const {
+    data: { session }
+  } = await supabase.auth.getSession()
+  if (!session) {
+    redirect('/')
+  }
   return (
     <div className='flex flex-1 flex-col justify-center w-[330px] sm:w-[384px]'>
       <div className='mb-10'>
@@ -15,7 +24,7 @@ const page: FC<pageProps> = ({}) => {
         </h2>
       </div>
       <div>
-        <UpdatePasswordForm />
+        <UpdatePasswordForm isForgotPassword />
       </div>
     </div>
   )

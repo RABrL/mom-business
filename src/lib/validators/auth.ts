@@ -17,14 +17,15 @@ export type ResetPasswordSchema = z.infer<typeof ResetPasswordValidator>
 
 export const NewPasswordValidator = z
   .object({
-    password: z
+    actual_password: z.string().optional(),
+    new_password: z
       .string()
       .min(8, { message: 'La contraseña debe tener al menos 8 caracteres' }),
     confirm: z
       .string()
       .min(8, { message: 'La contraseña debe tener al menos 8 caracteres' })
   })
-  .refine((data) => data.password === data.confirm, {
+  .refine((data) => data.new_password === data.confirm, {
     message: 'Las contraseñas no coinciden',
     path: ['confirm']
   })
