@@ -8,8 +8,8 @@ import { cookies } from 'next/headers'
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
 
-export default async function ProtectedRoute () {
-  const supabase = createServerComponentClient({ cookies })
+export default async function ProtectedRoute() {
+  const supabase = createServerComponentClient<Database>({ cookies })
 
   const {
     data: { user }
@@ -23,7 +23,7 @@ export default async function ProtectedRoute () {
 
   const signOut = async () => {
     'use server'
-    const supabase = createServerActionClient({ cookies })
+    const supabase = createServerActionClient<Database>({ cookies })
     await supabase.auth.signOut()
     redirect('/login')
   }

@@ -1,3 +1,7 @@
+import { Button } from '@/components/ui/Button'
+import Icons from '@/components/ui/Icons'
+import { Separator } from '@radix-ui/react-separator'
+
 export default function AuthLayout({
   children
 }: {
@@ -9,10 +13,8 @@ export default function AuthLayout({
         <span>Logo</span>
         Nombre App
       </nav>
-      <main className='flex justify-center bg-background flex-1 pt-12 pb-8 h-screen px-2'>
-        <section className='flex flex-1 flex-col align-center max-w-sm'>
-          {children}
-        </section>
+      <main className='flex flex-col flex-1 flex-shrink-0 items-center bg-background pt-16 pb-8 h-screen px-5 shadow-lg'>
+        {children}
       </main>
     </>
   )
