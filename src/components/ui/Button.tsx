@@ -68,7 +68,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ) : (
           children
         )}
-        
       </Comp>
     )
   }
