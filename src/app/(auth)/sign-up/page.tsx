@@ -1,6 +1,6 @@
-import AuthForm from '@/components/AuthForm'
+import AuthForm from '@/components/forms/AuthForm'
 import ButtonsOAuth from '@/components/ButtonsOAuth'
-import OrSeparator from '@/components/OrSeparator'
+import Separator from '@/components/Separator'
 import { Button } from '@/components/ui/Button'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
@@ -28,7 +28,7 @@ export default async function SignUp() {
       </div>
       <div className='flex flex-col gap-5'>
         <ButtonsOAuth />
-        <OrSeparator />
+        <Separator text='ó continua con' />
         <AuthForm />
       </div>
       <div className='self-center my-8 text-sm'>

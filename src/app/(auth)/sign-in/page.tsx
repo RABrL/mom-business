@@ -1,6 +1,6 @@
-import AuthForm from '@/components/AuthForm'
 import ButtonsOAuth from '@/components/ButtonsOAuth'
-import OrSeparator from '@/components/OrSeparator'
+import Separator from '@/components/Separator'
+import AuthForm from '@/components/forms/AuthForm'
 import { Button } from '@/components/ui/Button'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
@@ -22,11 +22,11 @@ export default async function SignIn() {
         <h1 className='mt-8 mb-2 text-background-foreground text-2xl lg:text-3xl'>
           Bienvenida de vuelta
         </h1>
-        <h2 className='text-sm text-muted-foreground'>Ingresá a tu cuenta</h2>
+        <h2 className='text-sm text-muted-foreground'>Elige tu metodo de inicio de sesión preferido</h2>
       </div>
       <div className='flex flex-col gap-5'>
         <ButtonsOAuth />
-        <OrSeparator />
+        <Separator text='ó ingresa con'/>
         <AuthForm signIn />
       </div>
       <div className='self-center my-8 text-sm'>
