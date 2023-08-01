@@ -12,8 +12,8 @@ import {
 import { Input } from '@/components/ui/Input'
 import { Separator } from '@/components/ui/Separator'
 import {
-  NewPasswordValidator,
-  type NewPasswordSchema
+  newPasswordSchema,
+  type NewPasswordInputs
 } from '@/lib/validators/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
@@ -31,8 +31,8 @@ interface UpdatePasswordFormProps {
 const UpdatePasswordForm: FC<UpdatePasswordFormProps> = ({ isForgotPassword }) => {
   const supabase = createClientComponentClient<Database>()
 
-  const form = useForm<NewPasswordSchema>({
-    resolver: zodResolver(NewPasswordValidator),
+  const form = useForm<NewPasswordInputs>({
+    resolver: zodResolver(newPasswordSchema),
     defaultValues: {
       actual_password: '',
       new_password: '',
@@ -40,7 +40,7 @@ const UpdatePasswordForm: FC<UpdatePasswordFormProps> = ({ isForgotPassword }) =
     }
   })
 
-  const onSubmit = async ({ actual_password, new_password }: NewPasswordSchema) => {
+  const onSubmit = async ({ actual_password, new_password }: NewPasswordInputs) => {
     /* if(isFromEmail) {
       await supabase.from('users').select('*').eq('email', supabase.auth.user()?.email)
     } */

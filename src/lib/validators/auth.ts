@@ -1,21 +1,19 @@
 import { z } from 'zod'
 
-export const AuthFormValidator = z.object({
-  email: z
-    .string()
-    .email({ message: 'El correo no es valido' }),
+export const authSchema = z.object({
+  email: z.string().email({ message: 'Profavor ingresa un email valido' }),
   password: z
     .string()
     .min(8, { message: 'La contraseña debe tener al menos 8 caracteres' })
 })
 
-export type AuthFormSchema = z.infer<typeof AuthFormValidator>
+export type AuthInputs = z.infer<typeof authSchema>
 
-export const ResetPasswordValidator = AuthFormValidator.pick({ email: true })
+export const resetPasswordSchema = authSchema.pick({ email: true })
 
-export type ResetPasswordSchema = z.infer<typeof ResetPasswordValidator>
+export type ResetPasswordInputs = z.infer<typeof resetPasswordSchema>
 
-export const NewPasswordValidator = z
+export const newPasswordSchema = z
   .object({
     actual_password: z.string().optional(),
     new_password: z
@@ -30,4 +28,4 @@ export const NewPasswordValidator = z
     path: ['confirm']
   })
 
-export type NewPasswordSchema = z.infer<typeof NewPasswordValidator>
+export type NewPasswordInputs = z.infer<typeof newPasswordSchema>

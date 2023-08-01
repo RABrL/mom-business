@@ -18,9 +18,9 @@ import { useRouter } from 'next/navigation'
 import { FC, HtmlHTMLAttributes } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { Button } from '../ui/Button'
+import { Button } from '@/components/ui/Button'
 
-import { AuthFormValidator, type AuthFormSchema } from '@/lib/validators/auth'
+import { authSchema, type AuthInputs } from '@/lib/validators/auth'
 interface AuthFormProps extends HtmlHTMLAttributes<HTMLFormElement> {
   signIn?: boolean
 }
@@ -29,14 +29,14 @@ const AuthForm: FC<AuthFormProps> = ({ signIn }) => {
   const router = useRouter()
   const supabase = createClientComponentClient<Database>()
 
-  const form = useForm<AuthFormSchema>({
-    resolver: zodResolver(AuthFormValidator),
+  const form = useForm<AuthInputs>({
+    resolver: zodResolver(authSchema),
     defaultValues: {
       email: '',
       password: ''
     }
   })
-  const onSubmit = async (values: AuthFormSchema) => {
+  const onSubmit = async (values: AuthInputs) => {
     if (signIn) {
       try {
         const { data, error } = await supabase.auth.signInWithPassword(values)
