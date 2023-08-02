@@ -1,5 +1,6 @@
 'use client'
 
+import { Button } from '@/components/ui/Button'
 import {
   Form,
   FormControl,
@@ -18,9 +19,9 @@ import { useRouter } from 'next/navigation'
 import { FC, HtmlHTMLAttributes } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { Button } from '@/components/ui/Button'
 
 import { authSchema, type AuthInputs } from '@/lib/validators/auth'
+import PasswordInput from '@/components/PasswordInput'
 interface AuthFormProps extends HtmlHTMLAttributes<HTMLFormElement> {
   signIn?: boolean
 }
@@ -112,7 +113,10 @@ const AuthForm: FC<AuthFormProps> = ({ signIn }) => {
                 </Link>
               )}
               <FormControl>
-                <Input type='password' placeholder='••••••••' {...field} />
+                <PasswordInput
+                  placeholder='••••••••'
+                  {...field}
+                />
               </FormControl>
               <FormDescription>
                 Debe contener al menos 8 caracteres
