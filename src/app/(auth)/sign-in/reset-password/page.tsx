@@ -75,7 +75,7 @@ const page: FC<pageProps> = ({}) => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder='example@correo.com' />
+                    <Input type='email' placeholder='example@correo.com' {...field}/>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
