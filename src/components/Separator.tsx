@@ -2,7 +2,7 @@ import { Separator as SeparatorUI } from '@/components/ui/Separator'
 import { FC } from 'react'
 
 interface SeparatorProps {
-  text: string 
+  text?: string 
 }
 
 const Separator: FC<SeparatorProps> = ({ text }) => {

@@ -106,7 +106,7 @@ const AuthForm: FC<AuthFormProps> = ({ signIn }) => {
               <FormLabel>Contraseña</FormLabel>
               {signIn && (
                 <Link
-                  href='/reset-password'
+                  href='sign-in/reset-password'
                   className='font-medium text-sm absolute top-0 right-0 text-muted-foreground'
                 >
                   Olvidaste la contraseña?
