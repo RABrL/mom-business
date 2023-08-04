@@ -4,6 +4,7 @@ import {
   LucideProps,
   Moon,
   Sun,
+  Menu,
   type LucideIcon
 } from 'lucide-react'
 
@@ -14,6 +15,7 @@ const Icons = {
   moon: Moon,
   view: Eye,
   hide: EyeOff,
+  menu: Menu,
   logo: ({ size = 25, ...props }: LucideProps) => (
     <svg
       {...props}
