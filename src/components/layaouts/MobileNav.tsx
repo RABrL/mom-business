@@ -3,20 +3,24 @@ import Icons from '@/components/ui/Icons'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/Sheet'
 import { FC } from 'react'
 
-interface MenuBurgerProps {}
+interface MobileNavProps {}
 
-const MenuBurger: FC<MenuBurgerProps> = ({}) => {
+const MobileNav: FC<MobileNavProps> = ({}) => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant='ghost' size='icon'>
-          <Icons.menu aria-hidden='true' />
+        <Button
+          variant='ghost'
+          size='icon'
+          className='text-base md:hidden'
+        >
+          <Icons.menu aria-hidden='true' className='h-6 w-6' />
+          <span className='sr-only'>Open menu</span>
         </Button>
-        <span className='sr-only'>Burger menu</span>
       </SheetTrigger>
       <SheetContent side='left'>Aca ira el navbar</SheetContent>
     </Sheet>
   )
 }
 
-export default MenuBurger
+export default MobileNav

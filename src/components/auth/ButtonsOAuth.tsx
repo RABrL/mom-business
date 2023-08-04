@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/Button'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { FC } from 'react'
-import Icons from './ui/Icons'
+import Icons from '../ui/Icons'
 
 interface ButtonsOAuthProps {}
 
