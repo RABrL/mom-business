@@ -45,6 +45,7 @@ const AuthForm: FC<AuthFormProps> = ({ signIn }) => {
           throw error
         }
         router.refresh()
+        toast.success(`Bienvenido/a de vuelta`)
       } catch (error) {
         if (error instanceof AuthApiError) {
           toast.error('Credenciales incorrectas')

@@ -7,14 +7,7 @@ export function Toaster() {
     <RadToaster
       expand
       richColors
-      position='top-right'
-      toastOptions={{
-        style: {
-          background: 'hsl(var(--background))',
-          color: 'hsl(var(--foreground))',
-          border: '1px solid hsl(var(--border))'
-        }
-      }}
+      position='bottom-right'
       duration={4000}
     />
   )
