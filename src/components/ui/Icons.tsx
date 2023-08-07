@@ -1,12 +1,16 @@
 import {
+  DollarSign,
   Eye,
   EyeOff,
-  LucideProps,
-  Moon,
-  Sun,
-  Menu,
-  Search,
   LogOut,
+  LucideProps,
+  Menu,
+  Moon,
+  PackageOpen,
+  Search,
+  Sun,
+  TrendingDown,
+  TrendingUp,
   type LucideIcon
 } from 'lucide-react'
 
@@ -20,6 +24,10 @@ const Icons = {
   menu: Menu,
   search: Search,
   logout: LogOut,
+  sales: DollarSign,
+  inventary: PackageOpen,
+  'trending-down': TrendingDown,
+  'trending-up': TrendingUp,
   logo: ({ size = 25, ...props }: LucideProps) => (
     <svg
       {...props}

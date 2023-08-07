@@ -11,7 +11,9 @@
     --muted: 240 7.8% 90.9%;
     --muted-foreground: 206 6.0% 43.5%;
 
-    --brand: 240 60% 80%;
+    --brand: 245 100% 90%;
+    --brand-hover: 245 100% 87%;
+    --brand-foreground: 195 7.1% 11.0%;
 
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
@@ -31,7 +33,7 @@
     --accent: 240 4.8% 95.9%;
     --accent-foreground: 240 5.9% 10%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 6 78% 57%;
     --destructive-foreground: 0 0% 98%;
 
     --ring: 207 11.1% 85.9%;
@@ -40,11 +42,17 @@
   }
 
   .dark {
+    --toastify-color-success: #07bc0c;
+    --toastify-color-warning: #f1c40f;
     --background: 195 7.1% 11.0%;
     --foreground: 210 6.0% 93.0%;
 
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 206 6.0% 63.0%;
+
+    --brand: 270 100% 50%;
+    --brand-hover: 270 100% 43%;
+    --brand-foreground: 210 6.0% 93.0%;
 
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
@@ -64,7 +72,7 @@
     --accent: 240 3.7% 15.9%;
     --accent-foreground: 0 0% 98%;
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 6 78% 57%;
     --destructive-foreground: 0 85.7% 97.3%;
 
     --ring: 203 6.0% 24.3%;
