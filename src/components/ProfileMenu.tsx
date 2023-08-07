@@ -43,7 +43,7 @@ const ProfileMenu: FC<ProfileMenuProps> = ({}) => {
   }, [])
 
   return (
-    <DropdownMenu>
+    <DropdownMenu >
       <DropdownMenuTrigger
         className={cn(
           buttonVariants({ variant: 'secondary' }),
@@ -51,11 +51,12 @@ const ProfileMenu: FC<ProfileMenuProps> = ({}) => {
         )}
       >
         <Avatar className='h-9 w-9'>
-          <AvatarImage src='https://avatars.githubusercontent.com/u/109044497?v=4' />
+          <AvatarImage src='https://avatars.githubusercontent.com/u/109044497?v=4' alt='Avatar github' />
           <AvatarFallback>AB</AvatarFallback>
         </Avatar>
+        <span className='sr-only'>Profile menu</span>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className='w-56' align='end' forceMount>
+      <DropdownMenuContent className='w-fit md:w-56' align='end' >
         <DropdownMenuLabel className='font-normal'></DropdownMenuLabel>
         <DropdownMenuGroup>
           <DropdownMenuItem>
@@ -69,7 +70,7 @@ const ProfileMenu: FC<ProfileMenuProps> = ({}) => {
             <button onClick={logOut} className='w-full'>
               <Icons.logout aria-hidden='true' className='mr-2 h-4 w-4' />
               Cerrar sesión
-              <DropdownMenuShortcut title={isMacOs() ? 'Command' : 'Control'}>
+              <DropdownMenuShortcut className='hidden md:block' title={isMacOs() ? 'Command' : 'Control'}>
                 {isMacOs() ? '⇧⌘Q' : 'Ctrl+Q'}
               </DropdownMenuShortcut>
             </button>

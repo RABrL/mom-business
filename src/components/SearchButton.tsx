@@ -17,8 +17,9 @@ interface SearchButtonProps {}
 
 const SearchButton: FC<SearchButtonProps> = ({}) => {
   const [open, setOpen] = useState(false)
-
+  let isMac
   useEffect(() => {
+    isMac = isMacOs()
     const down = (e: KeyboardEvent) => {
       if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault()
@@ -39,9 +40,9 @@ const SearchButton: FC<SearchButtonProps> = ({}) => {
         <Icons.search className='w-4 h-4 md:mr-2' />
         <span className='hidden md:inline-flex'>Buscar productos...</span>
         <span className='sr-only'>Buscar productos</span>
-        <kbd className='pointer-events-none absolute right-1.5 top-2 hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 md:flex'>
-          <abbr title={isMacOs() ? 'Command' : 'Control'}>
-            {isMacOs() ? '⌘' : 'Ctrl+'}
+        <kbd className='pointer-events-none absolute right-1.5 top-2.5 hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 md:flex'>
+          <abbr title={isMac ? 'Command' : 'Control'}>
+            {isMac ? '⌘' : 'Ctrl+'}
           </abbr>
           K
         </kbd>
