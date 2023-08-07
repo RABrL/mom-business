@@ -7,7 +7,7 @@ export function Toaster() {
     <RadToaster
       expand
       richColors
-      position='bottom-right'
+      position='top-right'
       duration={4000}
     />
   )

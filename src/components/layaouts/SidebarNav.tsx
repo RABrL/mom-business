@@ -15,7 +15,7 @@ const SidebarNav: FC<SidebarNavProps> = ({}) => {
   const items = dashboardConfig.sidebarNav
   return (
     <nav className='flex flex-col flex-1'>
-      <Card className='flex items-center py-4 px-5 gap-4'>
+      <Card className='flex items-center py-4 px-5 gap-4 bg-muted'>
         <picture>
           <Avatar>
             <AvatarImage

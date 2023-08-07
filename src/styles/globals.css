@@ -5,11 +5,11 @@
 
 @layer base {
   :root {
-    --background: 210 16.7% 97.6%;
+    --background: 209, 13.3%, 95.3%;
     --foreground: 206 24.0% 9.0%;
 
     --muted: 240 7.8% 90.9%;
-    --muted-foreground: 206 6.0% 43.5%;
+    --muted-foreground: 206, 6.0%, 36.5%;
 
     --brand: 245 100% 90%;
     --brand-hover: 245 100% 87%;
