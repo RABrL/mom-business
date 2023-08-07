@@ -20,7 +20,7 @@ export default async function AuthLayout({
     redirect('/')
   }
   return (
-    <div className='container'>
+    <>
       <header className='absolute top-0 w-full px-2 pt-4 mx-auto sm:px-8 sm:pt-6 lg:px-8 flex items-center gap-3 '>
         <Banner />
       </header>
@@ -29,6 +29,6 @@ export default async function AuthLayout({
           {children}
         </main>
       </div>
-    </div>
+    </>
   )
 }

@@ -47,7 +47,7 @@ const SidebarNav: FC<SidebarNavProps> = ({}) => {
                   >
                     <span
                       className={cn(
-                        'flex w-full items-center rounded-sm py-2 transition-colors',
+                        'flex w-full items-center text-sm md:text-base rounded-sm py-2 transition-colors',
                         {
                           'bg-brand hover:bg-brand-hover font-medium text-brand-foreground':
                             pathname === item.href,
@@ -61,7 +61,7 @@ const SidebarNav: FC<SidebarNavProps> = ({}) => {
                     </span>
                   </Link>
                 ) : (
-                  <span key={index} className='flex gap-2'>
+                  <span key={index} className='flex gap-2 text-sm md:text-base'>
                     {item.title}
                   </span>
                 )

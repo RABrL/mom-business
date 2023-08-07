@@ -17,7 +17,7 @@ export default async function layout({ children }: layoutProps) {
     redirect('/sign-in')
   }
   return (
-    <div className='flex min-h-screen flex-col'>
+    <div className='flex h-screen flex-col'>
       <MainHeader user={user} />
       <div className='container px-4 md:px-8 flex md:grid md:grid-cols-[240px_minmax(0,1fr)] h-16 items-center'>
         <aside className='md:border-r hidden md:fixed md:flex md:top-[73px] md:min-w-[240px] md:h-full '>
@@ -26,7 +26,7 @@ export default async function layout({ children }: layoutProps) {
           </ScrollArea>
         </aside>
         <div></div>
-        <main className='flex w-full flex-col overflow-hidden'>{children}</main>
+        <main className='flex w-full flex-1 h-[120vh] flex-col overflow-auto'>{children}</main>
       </div>
     </div>
   )
