@@ -34,7 +34,7 @@ const SidebarNav: FC<SidebarNavProps> = ({}) => {
         {items.map(({section,items}, index) => {
           return (
             <li key={index}>
-              <h3 className='p-4 font-bold md:text-base text-sm'>{section}</h3>
+              <h3 className='p-4 font-bold md:text-base text-sm tracking-wide'>{section}</h3>
               {items.map((item, index) => {
                 const Icon = Icons[item.icon ?? 'sun']
 
