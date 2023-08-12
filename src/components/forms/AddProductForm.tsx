@@ -32,14 +32,16 @@ const AddProductForm: FC<AddProductFormProps> = ({}) => {
       category_id: '',
       unit_cost: 0,
       unit_price: 0,
-      description: ''
+      description: '',
+      quantity: 0
     }
   })
 
-  const [description, cost, price] = form.watch([
+  const [description, cost, price, quantity] = form.watch([
     'description',
     'unit_cost',
-    'unit_price'
+    'unit_price',
+    'quantity'
   ])
 
   const length = description?.length
@@ -50,8 +52,10 @@ const AddProductForm: FC<AddProductFormProps> = ({}) => {
   ) => {
     const element = e.target
     if (element instanceof HTMLInputElement) {
-      form.setValue(field, Number(element.value))
-      handleProfit()
+      if (Number(element.value) >= 0) {
+        form.setValue(field, +element.value)
+        handleProfit()
+      }
       return
     }
     setInputHeight(element, '60px')
@@ -86,10 +90,29 @@ const AddProductForm: FC<AddProductFormProps> = ({}) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Nombre <span className='text-destructive text-lg'>*</span>
+                Nombre <span className='text-red-500 text-lg'>*</span>
               </FormLabel>
               <FormControl>
                 <Input placeholder='Producto (Obligatorio)' {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='quantity'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Cantidad</FormLabel>
+              <FormControl>
+                <Input
+                  type='number'
+                  placeholder='Cantidad (Opcional)'
+                  {...field}
+                  onChange={(e) => handleChange(e, 'quantity')}
+                  value={quantity || ''}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -108,7 +131,7 @@ const AddProductForm: FC<AddProductFormProps> = ({}) => {
                   placeholder='Valor compra (Opcional)'
                   {...field}
                   onChange={(e) => handleChange(e, 'unit_cost')}
-                  value={cost === 0 ? '' : cost}
+                  value={cost || ''}
                 />
               </FormControl>
               <FormMessage />
@@ -128,7 +151,7 @@ const AddProductForm: FC<AddProductFormProps> = ({}) => {
                   placeholder='Valor venta (Opcional)'
                   {...field}
                   onChange={(e) => handleChange(e, 'unit_price')}
-                  value={price === 0 ? '' : price}
+                  value={price || ''}
                 />
               </FormControl>
               <FormMessage />
