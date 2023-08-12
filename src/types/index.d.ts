@@ -1,11 +1,12 @@
 import Icons from '@/components/ui/Icons'
 
+type IconsType = keyof typeof Icons
 export interface NavItem {
   title: string
   href?: string
   disabled?: boolean
   external?: boolean
-  icon?: keyof typeof Icons
+  icon?: IconsType
   label?: string
   description?: string
 }

@@ -11,6 +11,9 @@ import {
   Sun,
   TrendingDown,
   TrendingUp,
+  ChevronsUpDown,
+  Check,
+  Percent,
   type LucideIcon
 } from 'lucide-react'
 
@@ -24,10 +27,13 @@ const Icons = {
   menu: Menu,
   search: Search,
   logout: LogOut,
-  sales: DollarSign,
+  money: DollarSign,
   inventary: PackageOpen,
   'trending-down': TrendingDown,
   'trending-up': TrendingUp,
+  upDown: ChevronsUpDown,
+  check: Check,
+  percent: Percent,
   logo: ({ size = 25, ...props }: LucideProps) => (
     <svg
       {...props}
