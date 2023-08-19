@@ -75,4 +75,14 @@
   body {
     @apply bg-background text-foreground;
   }
+  .text-balance {
+    text-wrap: balance;
+  }
+
+}
+
+@media (max-width: 640px) {
+  .container {
+    @apply px-4;
+  }
 }

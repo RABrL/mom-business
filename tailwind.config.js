@@ -14,7 +14,7 @@ module.exports = {
       center: true,
       padding: '2rem',
       screens: {
-        '2xl': '1536px'
+        '2xl': '1400px'
       }
     },
     extend: {
@@ -24,7 +24,7 @@ module.exports = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))'
       },
       screens: {
-        xs: '400px'
+        xs: '380px'
       },
       flex: {
         full: '0 0 100%'
@@ -38,7 +38,7 @@ module.exports = {
         brand: {
           DEFAULT: 'hsl(var(--brand))',
           foreground: 'hsl(var(--brand-foreground))',
-          hover: 'hsl(var(--brand-hover))',
+          hover: 'hsl(var(--brand-hover))'
         },
         primary: {
           DEFAULT: 'hsl(var(--primary))',

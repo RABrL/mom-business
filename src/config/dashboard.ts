@@ -12,19 +12,19 @@ export const dashboardConfig: DashboardConfig = {
         {
           title: 'Inventario',
           href: '/inventory',
-          icon: 'inventary',
+          icon: 'inventory',
           items: []
         },
         {
           title: 'Ventas',
           href: '/sales',
-          icon: 'trending-up',
+          icon: 'trendingUp',
           items: []
         },
         {
           title: 'Gastos',
           href: '/expenses',
-          icon: 'trending-down',
+          icon: 'trendingDown',
           items: []
         }
       ]
