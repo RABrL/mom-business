@@ -1,23 +1,10 @@
-import AuthForm from '@/components/forms/AuthForm'
-import ButtonsOAuth from '@/components/ButtonsOAuth'
 import Separator from '@/components/Separator'
+import ButtonsOAuth from '@/components/auth/ButtonsOAuth'
+import AuthForm from '@/components/forms/AuthForm'
 import { Button } from '@/components/ui/Button'
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
 import Link from 'next/link'
-import { redirect } from 'next/navigation'
 
-export default async function SignUp() {
-  const supabase = createServerComponentClient<Database>({ cookies })
-  const {
-    data: { user }
-  } = await supabase.auth.getUser()
-
-  console.log(user)
-
-  if (user) {
-    redirect('/')
-  }
+export default function SignUp() {
   return (
     <div className='flex flex-1 flex-col justify-center w-[330px] sm:w-[384px]'>
       <div className='mb-10'>

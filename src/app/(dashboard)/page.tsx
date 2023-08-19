@@ -1,26 +1,10 @@
-import ButtonLogOut from '@/components/ButtonLogOut'
-import ToggleTheme from '@/components/ToggleTheme'
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
+import QuickAccess from '@/components/quick-access'
+import { Shell } from '@/components/shells/Shell'
 
 export default async function Index() {
-  const supabase = createServerComponentClient<Database>({ cookies })
-  const {
-    data: { user }
-  } = await supabase.auth.getUser()
-
-  if (!user) {
-    redirect('/sign-in')
-  }
-  console.log(user)
   return (
-    <div className='flex-1 flex flex-col max-w-3xl mt-24'>
-      <nav>
-        <ToggleTheme />
-      </nav>
-      <h1>Dashboard</h1>
-      <ButtonLogOut />
-    </div>
+    <Shell className='grid items-center pb-8 pt-6 md:py-8 container md:px-0 gap-12'>
+      <QuickAccess />
+    </Shell>
   )
 }

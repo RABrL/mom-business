@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: 'Mom Tracker',
+  name: 'Business Tracker',
   url: 'https://momtracker.shadcn.com',
   ogImage: 'https://ui.shadcn.com/og.jpg',
   description:

@@ -1,21 +1,32 @@
-import { Button } from '@/components/ui/Button'
-import Icons from '@/components/ui/Icons'
-import { Separator } from '@radix-ui/react-separator'
+import Banner from '@/components/Banner'
 
-export default function AuthLayout({
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
+
+export default async function AuthLayout({
   children
 }: {
   children: React.ReactNode
 }) {
+  const supabase = createServerComponentClient<Database>({ cookies })
+  const {
+    data: { user }
+  } = await supabase.auth.getUser()
+
+  if (user) {
+    redirect('/')
+  }
   return (
     <>
-      <nav className='absolute top-0 w-full px-2 pt-4 mx-auto sm:px-8 sm:pt-6 lg:px-10'>
-        <span>Logo</span>
-        Nombre App
-      </nav>
-      <main className='flex flex-col flex-1 flex-shrink-0 items-center bg-background pt-16 pb-8 h-screen px-5 shadow-lg'>
-        {children}
-      </main>
+      <header className='absolute top-0 w-full px-2 pt-4 mx-auto sm:px-8 sm:pt-6 lg:px-8 flex items-center gap-3 '>
+        <Banner />
+      </header>
+      <div className='flex'>
+        <main className='flex flex-col flex-1 items-center bg-background pt-16 pb-8 h-screen px-5'>
+          {children}
+        </main>
+      </div>
     </>
   )
 }

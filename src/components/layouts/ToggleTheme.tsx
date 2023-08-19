@@ -20,7 +20,7 @@ const ToggleTheme = () => {
       />
       <Icons.moon
         aria-hidden='true'
-        className='absolute h-5 w-5 scale-0 rotate-0 transition-all dark:scale-100 dar:rotate-90'
+        className='absolute h-5 w-5 scale-0 rotate-180 transition-all dark:scale-100 dark:rotate-0'
       />
     </Button>
   )

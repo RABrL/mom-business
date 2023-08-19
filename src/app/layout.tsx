@@ -42,15 +42,13 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang='es' suppressHydrationWarning>
+    <html
+      lang='es'
+      className={`${fontVarela.variable} ${fontInter.variable}`}
+      suppressHydrationWarning
+    >
       <head />
-      <body
-        className={cn(
-          'min-h-screen bg-background font-sans antialiased',
-          fontVarela.variable,
-          fontInter.variable
-        )}
-      >
+      <body className={cn('min-h-screen bg-background font-sans antialiased')}>
         <Providers attribute='class' defaultTheme='system' enableSystem>
           {children}
           <TailwindIndicator />

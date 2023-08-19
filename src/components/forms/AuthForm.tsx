@@ -1,5 +1,6 @@
 'use client'
 
+import { Button } from '@/components/ui/Button'
 import {
   Form,
   FormControl,
@@ -18,8 +19,8 @@ import { useRouter } from 'next/navigation'
 import { FC, HtmlHTMLAttributes } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { Button } from '@/components/ui/Button'
 
+import PasswordInput from '@/components/PasswordInput'
 import { authSchema, type AuthInputs } from '@/lib/validators/auth'
 interface AuthFormProps extends HtmlHTMLAttributes<HTMLFormElement> {
   signIn?: boolean
@@ -44,6 +45,7 @@ const AuthForm: FC<AuthFormProps> = ({ signIn }) => {
           throw error
         }
         router.refresh()
+        toast.success(`Bienvenido/a de vuelta`)
       } catch (error) {
         if (error instanceof AuthApiError) {
           toast.error('Credenciales incorrectas')
@@ -105,14 +107,14 @@ const AuthForm: FC<AuthFormProps> = ({ signIn }) => {
               <FormLabel>Contraseña</FormLabel>
               {signIn && (
                 <Link
-                  href='/reset-password'
+                  href='sign-in/reset-password'
                   className='font-medium text-sm absolute top-0 right-0 text-muted-foreground'
                 >
                   Olvidaste la contraseña?
                 </Link>
               )}
               <FormControl>
-                <Input type='password' placeholder='••••••••' {...field} />
+                <PasswordInput placeholder='••••••••' {...field} />
               </FormControl>
               <FormDescription>
                 Debe contener al menos 8 caracteres

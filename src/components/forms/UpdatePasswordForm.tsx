@@ -9,7 +9,6 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/Form'
-import { Input } from '@/components/ui/Input'
 import { Separator } from '@/components/ui/Separator'
 import {
   newPasswordSchema,
@@ -20,6 +19,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { FC } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
+import PasswordInput from '@/components/PasswordInput'
 
 interface UpdatePasswordFormProps {
   /**
@@ -28,7 +28,9 @@ interface UpdatePasswordFormProps {
   isForgotPassword?: boolean
 }
 
-const UpdatePasswordForm: FC<UpdatePasswordFormProps> = ({ isForgotPassword }) => {
+const UpdatePasswordForm: FC<UpdatePasswordFormProps> = ({
+  isForgotPassword
+}) => {
   const supabase = createClientComponentClient<Database>()
 
   const form = useForm<NewPasswordInputs>({
@@ -40,7 +42,10 @@ const UpdatePasswordForm: FC<UpdatePasswordFormProps> = ({ isForgotPassword }) =
     }
   })
 
-  const onSubmit = async ({ actual_password, new_password }: NewPasswordInputs) => {
+  const onSubmit = async ({
+    actual_password,
+    new_password
+  }: NewPasswordInputs) => {
     /* if(isFromEmail) {
       await supabase.from('users').select('*').eq('email', supabase.auth.user()?.email)
     } */
@@ -72,7 +77,11 @@ const UpdatePasswordForm: FC<UpdatePasswordFormProps> = ({ isForgotPassword }) =
               <FormItem>
                 <FormLabel>Contraseña actual</FormLabel>
                 <FormControl>
-                  <Input type='password' placeholder='••••••••' {...field} />
+                  <PasswordInput
+                    type='password'
+                    placeholder='••••••••'
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -86,7 +95,11 @@ const UpdatePasswordForm: FC<UpdatePasswordFormProps> = ({ isForgotPassword }) =
             <FormItem>
               <FormLabel>Contraseña nueva</FormLabel>
               <FormControl>
-                <Input type='password' placeholder='••••••••' {...field} />
+                <PasswordInput
+                  type='password'
+                  placeholder='••••••••'
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -99,7 +112,11 @@ const UpdatePasswordForm: FC<UpdatePasswordFormProps> = ({ isForgotPassword }) =
             <FormItem>
               <FormLabel>Confirma la contraseña</FormLabel>
               <FormControl>
-                <Input type='password' placeholder='••••••••' {...field} />
+                <PasswordInput
+                  type='password'
+                  placeholder='••••••••'
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
