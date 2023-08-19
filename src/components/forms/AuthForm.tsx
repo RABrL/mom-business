@@ -20,8 +20,8 @@ import { FC, HtmlHTMLAttributes } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
-import { authSchema, type AuthInputs } from '@/lib/validators/auth'
 import PasswordInput from '@/components/PasswordInput'
+import { authSchema, type AuthInputs } from '@/lib/validators/auth'
 interface AuthFormProps extends HtmlHTMLAttributes<HTMLFormElement> {
   signIn?: boolean
 }
@@ -114,10 +114,7 @@ const AuthForm: FC<AuthFormProps> = ({ signIn }) => {
                 </Link>
               )}
               <FormControl>
-                <PasswordInput
-                  placeholder='••••••••'
-                  {...field}
-                />
+                <PasswordInput placeholder='••••••••' {...field} />
               </FormControl>
               <FormDescription>
                 Debe contener al menos 8 caracteres

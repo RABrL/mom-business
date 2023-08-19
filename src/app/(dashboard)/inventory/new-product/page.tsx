@@ -6,7 +6,7 @@ interface pageProps {}
 const page: FC<pageProps> = ({}) => {
   return (
     <>
-      <h2>Add new Product</h2>
+      <h2 className=''>Agregar Producto</h2>
       <AddProductForm />
     </>
   )

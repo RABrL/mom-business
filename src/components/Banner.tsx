@@ -9,7 +9,7 @@ const Banner: FC<BannerProps> = ({ className, ...props }) => {
   return (
     <div className={cn('flex items-center gap-2', className)} {...props}>
       <Icons.logo aria-hidden='true' size={36} />
-      <span className='sr-only'>Logo pagina</span>
+      <span className='sr-only'>Web Logo</span>
       <span className='font-bold tracking-wider'>{siteConfig.name}</span>
     </div>
   )

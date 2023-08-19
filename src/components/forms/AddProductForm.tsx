@@ -9,26 +9,61 @@ import {
   FormMessage
 } from '@/components/ui/Form'
 import { Input } from '@/components/ui/Input'
-import { setInputChange } from '@/lib/utils'
+import { useCategories } from '@/hooks/useCategories'
+import { useProducts } from '@/hooks/useProducts'
 import { productSchema, type ProductInputs } from '@/lib/validators/product'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
-import { FC, useEffect, useRef } from 'react'
+import { FC, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import SelectInput from '../SelectInput'
 import { Button } from '../ui/Button'
+import { Label } from '../ui/Label'
 import { Textarea } from '../ui/Textarea'
 
 interface AddProductFormProps {}
 
 const AddProductForm: FC<AddProductFormProps> = ({}) => {
   const router = useRouter()
+  const { categories, getCategories } = useCategories()
+
+  useEffect(() => {
+    getCategories()
+  }, [])
 
   const form = useForm<ProductInputs>({
-    resolver: zodResolver(productSchema)
+    resolver: zodResolver(productSchema),
+    defaultValues: {
+      name: '',
+      unit_cost: 0,
+      unit_price: 0,
+      description: '',
+      stock: 0
+    }
   })
 
-  const onSubmit = async (values: AddProductFormProps) => {
-    console.log(values)
+  const { handleChange, profit, cost, price, stock, length } = useProducts(form)
+
+  const onSubmit = async (values: ProductInputs) => {
+    fetch('/api/products', {
+      method: 'POST',
+      body: JSON.stringify({
+        ...values,
+        profit: Number(profit) / 100
+      })
+    })
+      .then((res) => {
+        if (!res.ok) {
+          if (res.status === 500)
+            throw new Error('Ups, Hubo un error al crear el producto')
+        }
+
+        toast.success('Producto creado correctamente')
+      })
+      .catch((err) => {
+        toast.error(err.message)
+      })
   }
   return (
     <Form {...form}>
@@ -42,10 +77,29 @@ const AddProductForm: FC<AddProductFormProps> = ({}) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Nombre <span className='text-destructive text-lg'>*</span>
+                Nombre <span className='text-red-500 text-lg'>*</span>
               </FormLabel>
               <FormControl>
                 <Input placeholder='Producto (Obligatorio)' {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='stock'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Cantidad</FormLabel>
+              <FormControl>
+                <Input
+                  type='number'
+                  placeholder='Cantidad (Opcional)'
+                  {...field}
+                  onChange={(e) => handleChange(e, 'stock')}
+                  value={stock || ''}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -59,9 +113,12 @@ const AddProductForm: FC<AddProductFormProps> = ({}) => {
               <FormLabel>Costo unitario</FormLabel>
               <FormControl>
                 <Input
+                  icon='money'
                   type='number'
                   placeholder='Valor compra (Opcional)'
                   {...field}
+                  onChange={(e) => handleChange(e, 'unit_cost')}
+                  value={cost || ''}
                 />
               </FormControl>
               <FormMessage />
@@ -75,34 +132,42 @@ const AddProductForm: FC<AddProductFormProps> = ({}) => {
             <FormItem>
               <FormLabel>Precio unitario</FormLabel>
               <FormControl>
-                <Input placeholder='Valor venta (Opcional)' {...field} />
+                <Input
+                  icon='money'
+                  type='number'
+                  placeholder='Valor venta (Opcional)'
+                  {...field}
+                  onChange={(e) => handleChange(e, 'unit_price')}
+                  value={price || ''}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+        <div className='flex flex-col gap-2'>
+          <Label>Ganancia</Label>
+          <Input
+            icon='percent'
+            readOnly
+            disabled
+            placeholder='0.00'
+            value={profit}
+            className='text-muted-foreground disabled:cursor-default disabled:opacity-100'
+          />
+        </div>
         <FormField
           control={form.control}
-          name='quantity'
+          name='category_id'
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Cantidad</FormLabel>
-              <FormControl>
-                <Input placeholder='Cantidad disponible' {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name='quantity'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Cantidad</FormLabel>
-              <FormControl>
-                <Input placeholder='Cantidad disponible' {...field} />
-              </FormControl>
+            <FormItem className='flex flex-col w-full'>
+              <FormLabel>Categoría</FormLabel>
+              <SelectInput
+                options={categories}
+                placeholder='Buscar categoría...'
+                {...field}
+                fn={form.setValue}
+              />
               <FormMessage />
             </FormItem>
           )}
@@ -115,12 +180,11 @@ const AddProductForm: FC<AddProductFormProps> = ({}) => {
               <FormLabel>Descripción</FormLabel>
               <FormControl>
                 <Textarea
-                  id='description'
                   maxLength={100}
-                  className='resize-none overflow-y-hidden h-auto'
+                  length={length}
                   placeholder='Descripción del producto (Opcional)'
                   {...field}
-                  onChange={(e) => setInputChange(e, '60px')}
+                  onChange={(e) => handleChange(e, 'description')}
                 />
               </FormControl>
               <FormMessage />

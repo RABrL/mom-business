@@ -12,7 +12,7 @@ export function isMacOs() {
     return window.navigator.userAgent.includes('Mac')
 }
 
-export function setInputChange(
+export function setInputHeight(
   element: any,
   defaultHeight: `${number}px`
 ) {

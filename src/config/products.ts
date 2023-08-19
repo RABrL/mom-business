@@ -33,7 +33,7 @@ export const newProductConfig: NewProductConfig = {
     {
       label: 'Cantidad',
       placeholder: 'Cantidad disponible',
-      name: 'quantity',
+      name: 'stock',
       type: 'number',
       icon: 'sun',
     },

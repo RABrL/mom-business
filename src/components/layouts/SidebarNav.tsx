@@ -8,16 +8,18 @@ import { FC } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/Avatar'
 import { Card, CardContent } from '../ui/Card'
 import Icons from '../ui/Icons'
-interface SidebarNavProps {}
+interface SidebarNavProps {
+  setIsOpen?: (isOpen: boolean) => void
+}
 
-const SidebarNav: FC<SidebarNavProps> = ({}) => {
+const SidebarNav: FC<SidebarNavProps> = ({ setIsOpen }) => {
   const pathname = usePathname()
   const items = dashboardConfig.sidebarNav
   return (
     <nav className='flex flex-col flex-1'>
-      <Card className='flex items-center py-4 px-5 gap-4 bg-muted'>
+      <Card className='flex items-center py-3 px-4 text-xs md:text-[14px] md:py-4 md:px-5 gap-4 bg-muted'>
         <picture>
-          <Avatar>
+          <Avatar className='w-8 h-8 md:w-10 md:h-10'>
             <AvatarImage
               src='https://avatars.githubusercontent.com/u/109044497?v=4'
               alt='Avatar github'
@@ -25,16 +27,18 @@ const SidebarNav: FC<SidebarNavProps> = ({}) => {
             <AvatarFallback>AC</AvatarFallback>
           </Avatar>
         </picture>
-        <CardContent className='p-0 text-sm'>
+        <CardContent className='p-0'>
           <h6 className='font-semibold'>Andres Brito</h6>
           <p className='text-muted-foreground'>Admin</p>
         </CardContent>
       </Card>
       <ul className=''>
-        {items.map(({section,items}, index) => {
+        {items.map(({ section, items }, index) => {
           return (
             <li key={index}>
-              <h3 className='p-4 font-bold md:text-base text-sm tracking-wide'>{section}</h3>
+              <h3 className='p-4 font-bold md:text-base text-sm tracking-wide'>
+                {section}
+              </h3>
               {items.map((item, index) => {
                 const Icon = Icons[item.icon ?? 'sun']
 
@@ -42,6 +46,7 @@ const SidebarNav: FC<SidebarNavProps> = ({}) => {
                   <Link
                     key={index}
                     href={item.href}
+                    {...(setIsOpen && { onClick: () => setIsOpen(false) })}
                     target={item.external ? '_blank' : ''}
                     rel={item.external ? 'noreferrer' : ''}
                   >
