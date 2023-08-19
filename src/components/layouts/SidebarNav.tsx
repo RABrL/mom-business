@@ -8,9 +8,11 @@ import { FC } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/Avatar'
 import { Card, CardContent } from '../ui/Card'
 import Icons from '../ui/Icons'
-interface SidebarNavProps {}
+interface SidebarNavProps {
+  setIsOpen?: (isOpen: boolean) => void
+}
 
-const SidebarNav: FC<SidebarNavProps> = ({}) => {
+const SidebarNav: FC<SidebarNavProps> = ({ setIsOpen }) => {
   const pathname = usePathname()
   const items = dashboardConfig.sidebarNav
   return (
@@ -31,10 +33,12 @@ const SidebarNav: FC<SidebarNavProps> = ({}) => {
         </CardContent>
       </Card>
       <ul className=''>
-        {items.map(({section,items}, index) => {
+        {items.map(({ section, items }, index) => {
           return (
             <li key={index}>
-              <h3 className='p-4 font-bold md:text-base text-sm tracking-wide'>{section}</h3>
+              <h3 className='p-4 font-bold md:text-base text-sm tracking-wide'>
+                {section}
+              </h3>
               {items.map((item, index) => {
                 const Icon = Icons[item.icon ?? 'sun']
 
@@ -42,6 +46,7 @@ const SidebarNav: FC<SidebarNavProps> = ({}) => {
                   <Link
                     key={index}
                     href={item.href}
+                    {...(setIsOpen && { onClick: () => setIsOpen(false) })}
                     target={item.external ? '_blank' : ''}
                     rel={item.external ? 'noreferrer' : ''}
                   >

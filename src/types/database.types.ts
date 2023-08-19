@@ -11,24 +11,28 @@ export interface Database {
     Tables: {
       categories: {
         Row: {
-          created_at: string | null
-          description: string | null
           id: number
           name: string
+          user_id: string
         }
         Insert: {
-          created_at?: string | null
-          description?: string | null
           id?: number
           name: string
+          user_id?: string
         }
         Update: {
-          created_at?: string | null
-          description?: string | null
           id?: number
           name?: string
+          user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "categories_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       products: {
         Row: {
@@ -37,12 +41,14 @@ export interface Database {
           created_at: string | null
           description: string | null
           id: number
+          image: string | null
           name: string
           profit: number
           stock: number
           unit_cost: number
           unit_price: number
           updated_at: string | null
+          user_id: string
         }
         Insert: {
           bar_code?: string | null
@@ -50,12 +56,14 @@ export interface Database {
           created_at?: string | null
           description?: string | null
           id?: number
+          image?: string | null
           name: string
           profit: number
           stock: number
           unit_cost: number
           unit_price: number
           updated_at?: string | null
+          user_id?: string
         }
         Update: {
           bar_code?: string | null
@@ -63,18 +71,26 @@ export interface Database {
           created_at?: string | null
           description?: string | null
           id?: number
+          image?: string | null
           name?: string
           profit?: number
           stock?: number
           unit_cost?: number
           unit_price?: number
           updated_at?: string | null
+          user_id?: string
         }
         Relationships: [
           {
             foreignKeyName: "products_category_id_fkey"
             columns: ["category_id"]
             referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "products_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           }
         ]

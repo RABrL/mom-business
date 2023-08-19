@@ -1,4 +1,5 @@
 'use client'
+
 import { cn } from '@/lib/utils'
 import { ProductInputs } from '@/lib/validators/product'
 import { forwardRef, useState } from 'react'
@@ -14,45 +15,20 @@ import {
 import { FormControl } from './ui/Form'
 import Icons from './ui/Icons'
 
-const mock = {
-  categories: [
-    {
-      id: '1',
-      name: 'Vicio'
-    },
-    {
-      id: '2',
-      name: 'Salud'
-    },
-    {
-      id: '3',
-      name: 'Belleza'
-    },
-    {
-      id: '4',
-      name: 'Hogar'
-    },
-    {
-      id: '5',
-      name: 'Tecnología'
-    }
-  ]
-}
 interface SelectInputProps extends ControllerRenderProps {
   placeholder: string
+  options: { id: number; name: string }[]
   fn: UseFormSetValue<ProductInputs>
 }
 
 const SelectInput = forwardRef<HTMLElement, SelectInputProps>(
-  ({ placeholder, fn, ...props }, ref) => {
+  ({ placeholder, fn, options, ...props }, ref) => {
     const [open, setOpen] = useState(false)
-    const { categories } = mock
-    const handleSelect = (value: string | undefined) => {
+    const handleSelect = (value: number | undefined) => {
       fn('category_id', value)
       setOpen(false)
     }
-    /* const {data: categories, error} = await supabase.from('categories').select('*')
-    console.log(categories) */
+
     return (
       <>
         <FormControl ref={ref}>
@@ -66,7 +42,7 @@ const SelectInput = forwardRef<HTMLElement, SelectInputProps>(
             variant='outline'
           >
             {props.value
-              ? categories.find((category) => category.id === props.value)?.name
+              ? options.find(({ id }) => id === props.value)?.name
               : 'Sin categoría'}
             <Icons.upDown className='w-4 ml-2 shrink-0 opacity-50' />
           </Button>
@@ -86,7 +62,7 @@ const SelectInput = forwardRef<HTMLElement, SelectInputProps>(
               />
               Sin categoría
             </CommandItem>
-            {categories.map(({ id, name }) => (
+            {options.map(({ id, name }) => (
               <CommandItem
                 key={id}
                 value={name}

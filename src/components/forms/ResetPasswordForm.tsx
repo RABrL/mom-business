@@ -37,7 +37,7 @@ const ResetPasswordForm: FC<ResetPasswordFormProps> = ({}) => {
 
   const onSubmit = async ({ email }: ResetPasswordInputs) => {
     const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${location.origin}/api/auth/callback?next=/update-password`
+      redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/callback?next=/update-password`
     })
     if (error) {
       toast.error(error?.message)

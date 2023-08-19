@@ -8,12 +8,12 @@ export const productSchema = z
       .max(50, { message: 'Maximo 50 caracteres' }),
     bar_code: z.string().max(50),
     image: z.string(),
-    quantity: z.number().positive(),
+    stock: z.number().nonnegative(),
     unit_price: z
       .number()
-      .positive({ message: 'El precio debe ser mayor a 0' }),
-    unit_cost: z.number().positive({ message: 'El costo debe ser mayor a 0' }),
-    category_id: z.string(),
+      .nonnegative({ message: 'El precio debe ser mayor a 0' }),
+    unit_cost: z.number().nonnegative({ message: 'El costo debe ser mayor a 0' }),
+    category_id: z.number().nonnegative(),
     description: z.string().max(100)
   })
   .partial()

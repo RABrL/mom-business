@@ -1,10 +1,12 @@
 'use client'
+
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
-import { cn, isMacOs } from '@/lib/utils'
+import { cn } from '@/lib/utils'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import { FC, useEffect } from 'react'
 import { toast } from 'sonner'
+import LogOutButton from './auth/LogOutButton'
 import { buttonVariants } from './ui/Button'
 import {
   DropdownMenu,
@@ -13,22 +15,24 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger
 } from './ui/DropdownMenu'
 import Icons from './ui/Icons'
 
 interface ProfileMenuProps {
-  user: User | null
+  /*  user: User | null */
 }
 
 const ProfileMenu: FC<ProfileMenuProps> = ({}) => {
   const router = useRouter()
-  const supabase = createClientComponentClient<Database>()
+  const supabase = createClientComponentClient()
+
   const logOut = async () => {
     await supabase.auth.signOut()
     router.refresh()
-    toast.success('Sesión cerrada con exito', { description: 'Vuelve pronto' })
+    toast.success('Sesión cerrada con exito', {
+      description: 'Vuelve pronto'
+    })
   }
 
   useEffect(() => {
@@ -43,7 +47,7 @@ const ProfileMenu: FC<ProfileMenuProps> = ({}) => {
   }, [])
 
   return (
-    <DropdownMenu >
+    <DropdownMenu>
       <DropdownMenuTrigger
         className={cn(
           buttonVariants({ variant: 'secondary' }),
@@ -51,12 +55,15 @@ const ProfileMenu: FC<ProfileMenuProps> = ({}) => {
         )}
       >
         <Avatar className='h-9 w-9'>
-          <AvatarImage src='https://avatars.githubusercontent.com/u/109044497?v=4' alt='Avatar github' />
+          <AvatarImage
+            src='https://avatars.githubusercontent.com/u/109044497?v=4'
+            alt='Avatar github'
+          />
           <AvatarFallback>AB</AvatarFallback>
         </Avatar>
         <span className='sr-only'>Profile menu</span>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className='w-fit md:w-56' align='end' >
+      <DropdownMenuContent className='w-fit md:w-56' align='end'>
         <DropdownMenuLabel className='font-normal'></DropdownMenuLabel>
         <DropdownMenuGroup>
           <DropdownMenuItem>
@@ -67,13 +74,7 @@ const ProfileMenu: FC<ProfileMenuProps> = ({}) => {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
-            <button onClick={logOut} className='w-full'>
-              <Icons.logout aria-hidden='true' className='mr-2 h-4 w-4' />
-              Cerrar sesión
-              <DropdownMenuShortcut className='hidden md:block' title={isMacOs() ? 'Command' : 'Control'}>
-                {isMacOs() ? '⇧⌘Q' : 'Ctrl+Q'}
-              </DropdownMenuShortcut>
-            </button>
+            <LogOutButton onClick={logOut}/>
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>

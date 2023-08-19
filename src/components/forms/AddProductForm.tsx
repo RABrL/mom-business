@@ -9,12 +9,14 @@ import {
   FormMessage
 } from '@/components/ui/Form'
 import { Input } from '@/components/ui/Input'
-import { setInputHeight } from '@/lib/utils'
+import { useCategories } from '@/hooks/useCategories'
+import { useProducts } from '@/hooks/useProducts'
 import { productSchema, type ProductInputs } from '@/lib/validators/product'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
-import { ChangeEvent, FC, useState } from 'react'
+import { FC, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import SelectInput from '../SelectInput'
 import { Button } from '../ui/Button'
 import { Label } from '../ui/Label'
@@ -24,59 +26,44 @@ interface AddProductFormProps {}
 
 const AddProductForm: FC<AddProductFormProps> = ({}) => {
   const router = useRouter()
-  const [profit, setProfit] = useState<string>('')
+  const { categories, getCategories } = useCategories()
+
+  useEffect(() => {
+    getCategories()
+  }, [])
+
   const form = useForm<ProductInputs>({
     resolver: zodResolver(productSchema),
     defaultValues: {
       name: '',
-      category_id: '',
       unit_cost: 0,
       unit_price: 0,
       description: '',
-      quantity: 0
+      stock: 0
     }
   })
 
-  const [description, cost, price, quantity] = form.watch([
-    'description',
-    'unit_cost',
-    'unit_price',
-    'quantity'
-  ])
+  const { handleChange, profit, cost, price, stock, length } = useProducts(form)
 
-  const length = description?.length
-
-  const handleChange = (
-    e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-    field: keyof ProductInputs
-  ) => {
-    const element = e.target
-    if (element instanceof HTMLInputElement) {
-      if (Number(element.value) >= 0) {
-        form.setValue(field, +element.value)
-        handleProfit()
-      }
-      return
-    }
-    setInputHeight(element, '60px')
-    form.setValue(field, element.value)
-  }
-
-  const handleProfit = () => {
-    const [price, cost] = form.watch(['unit_price', 'unit_cost'])
-    if (price && cost) {
-      const percent = ((price - cost) / cost) * 100
-      setProfit(percent.toFixed(2))
-      return
-    }
-    setProfit('')
-  }
-
-  const onSubmit = async (values: AddProductFormProps) => {
-    console.log({
-      ...values,
-      profit: Number(profit) / 100
+  const onSubmit = async (values: ProductInputs) => {
+    fetch('/api/products', {
+      method: 'POST',
+      body: JSON.stringify({
+        ...values,
+        profit: Number(profit) / 100
+      })
     })
+      .then((res) => {
+        if (!res.ok) {
+          if (res.status === 500)
+            throw new Error('Ups, Hubo un error al crear el producto')
+        }
+
+        toast.success('Producto creado correctamente')
+      })
+      .catch((err) => {
+        toast.error(err.message)
+      })
   }
   return (
     <Form {...form}>
@@ -101,7 +88,7 @@ const AddProductForm: FC<AddProductFormProps> = ({}) => {
         />
         <FormField
           control={form.control}
-          name='quantity'
+          name='stock'
           render={({ field }) => (
             <FormItem>
               <FormLabel>Cantidad</FormLabel>
@@ -110,8 +97,8 @@ const AddProductForm: FC<AddProductFormProps> = ({}) => {
                   type='number'
                   placeholder='Cantidad (Opcional)'
                   {...field}
-                  onChange={(e) => handleChange(e, 'quantity')}
-                  value={quantity || ''}
+                  onChange={(e) => handleChange(e, 'stock')}
+                  value={stock || ''}
                 />
               </FormControl>
               <FormMessage />
@@ -176,6 +163,7 @@ const AddProductForm: FC<AddProductFormProps> = ({}) => {
             <FormItem className='flex flex-col w-full'>
               <FormLabel>Categoría</FormLabel>
               <SelectInput
+                options={categories}
                 placeholder='Buscar categoría...'
                 {...field}
                 fn={form.setValue}
