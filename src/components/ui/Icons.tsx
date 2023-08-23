@@ -1,4 +1,7 @@
 import {
+  AlertTriangle,
+  Check,
+  ChevronsUpDown,
   DollarSign,
   Eye,
   EyeOff,
@@ -7,13 +10,12 @@ import {
   Menu,
   Moon,
   PackageOpen,
+  Percent,
   Search,
+  ShoppingCart,
   Sun,
   TrendingDown,
   TrendingUp,
-  ChevronsUpDown,
-  Check,
-  Percent,
   type LucideIcon
 } from 'lucide-react'
 
@@ -34,6 +36,8 @@ const Icons = {
   upDown: ChevronsUpDown,
   check: Check,
   percent: Percent,
+  shoppingCart: ShoppingCart,
+  AlertTriangle: AlertTriangle,
   logo: ({ size = 25, ...props }: LucideProps) => (
     <svg
       {...props}
