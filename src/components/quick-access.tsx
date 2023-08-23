@@ -8,6 +8,7 @@ const QUICK_ACCESS = [
   {
     icon: {
       Icon: Icons.trendingUp,
+      background: 'dark:bg-green-900 bg-green-200',
       className: 'dark:text-green-400 text-green-500'
     },
     title: 'Registrar Venta',
@@ -17,6 +18,7 @@ const QUICK_ACCESS = [
   {
     icon: {
       Icon: Icons.trendingDown,
+      background: 'dark:bg-red-900 bg-red-200',
       className: 'dark:text-red-400 text-red-500'
     },
     title: 'Registrar Gasto',
@@ -26,7 +28,8 @@ const QUICK_ACCESS = [
   {
     icon: {
       Icon: Icons.inventory,
-      className: 'dark:text-blue-400 text-blue-500'
+      background: 'dark:bg-blue-900 bg-blue-200',
+      className: 'dark:fill-blue-400 fill-blue-500'
     },
     title: 'Ver Inventario',
     href: '/inventory',
@@ -44,7 +47,7 @@ const QuickAccess: FC<QuickAccessProps> = ({}) => {
       </h2>
       <div className='grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] gap-3 text-xs md:text-sm font-medium'>
         {QUICK_ACCESS.map(
-          ({ icon: { Icon, className }, title, href, hover }, ind) => (
+          ({ icon: { Icon, className, background }, title, href, hover }, ind) => (
             <Link href={href} key={ind}>
               <Card
                 className={cn(
@@ -53,7 +56,9 @@ const QuickAccess: FC<QuickAccessProps> = ({}) => {
                 )}
               >
                 <CardHeader className='px-0 py-0'>
-                  <Icon aria-hidden='true' className={cn(className)} />
+                  <div className={cn('w-9 h-9 rounded-full grid place-content-center', background)}>
+                    <Icon aria-hidden='true' className={cn(className)} />
+                  </div>
                 </CardHeader>
                 <CardContent className='px-0 py-0'>{title}</CardContent>
               </Card>
