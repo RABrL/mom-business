@@ -39,7 +39,7 @@
     --brand-foreground: 210 6.0% 93.0%;
     --popover: 224 71.4% 4.1%;
     --popover-foreground: 210 20% 98%;
-    --primary: 263.4 70% 50.4%;
+    --primary: 263.49 91.21% 64.31%;
     --primary-foreground: 210 20% 98%;
     --secondary: 215 27.9% 16.9%;
     --secondary-foreground: 210 20% 98%;
@@ -51,7 +51,7 @@
     --destructive-foreground: 210 20% 98%;
     --border: 215 27.9% 16.9%;
     --input: 215 27.9% 16.9%;
-    --ring: 263.4 70% 50.4%;
+    --ring: 263.49 91.21% 64.31%;
   }
 
   input[type=number]::-webkit-inner-spin-button,
@@ -75,6 +75,7 @@
   body {
     @apply bg-background text-foreground;
   }
+
   .text-balance {
     text-wrap: balance;
   }
