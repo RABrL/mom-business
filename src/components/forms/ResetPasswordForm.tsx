@@ -36,6 +36,11 @@ const ResetPasswordForm: FC<ResetPasswordFormProps> = ({}) => {
   })
 
   const onSubmit = async ({ email }: ResetPasswordInputs) => {
+    const { data: user} = await supabase.from('profiles').select('*').eq('email', email)
+    if (!user || user.length === 0) {
+      toast.error('No existe una cuenta con este correo electrónico')
+      return
+    }
     const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/callback?next=/update-password`
     })
