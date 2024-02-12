@@ -14,7 +14,6 @@ const page: FC<pageProps> = ({}) => {
         </h1>
         <h2 className='text-sm text-muted-foreground'>
           Escribe tu correo y te enviaremos un link para reiniciar tu contraseña
-          Type in your email and we'll send you a link to reset your password
         </h2>
       </div>
       <div className='flex flex-col gap-5'>
