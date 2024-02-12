@@ -68,7 +68,7 @@ const ProfileMenu: FC<ProfileMenuProps> = ({}) => {
         <DropdownMenuGroup>
           <DropdownMenuItem>
             <Icons.github width={18} height={18} className='mr-2' />
-            Gooogle
+            Google
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
