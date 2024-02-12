@@ -56,6 +56,12 @@ const AuthForm: FC<AuthFormProps> = ({ signIn }) => {
     } else {
       try {
         const { email, password } = values
+        const { data: user } = await (await supabase.from('profiles').select('*').eq('email', email))
+        
+        if(!user || user.length > 0){
+          toast.error('Ya existe un usuario con este correo electrónico')
+          return
+        }
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
