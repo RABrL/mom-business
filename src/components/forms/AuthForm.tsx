@@ -69,6 +69,7 @@ const AuthForm: FC<AuthFormProps> = ({ signIn }) => {
         toast.success('Registro exitoso', {
           description: `Hemos enviado un link de verificación a ${email}`
         })
+        form.reset()
         router.refresh()
       } catch (error) {
         if (error instanceof AuthApiError) {

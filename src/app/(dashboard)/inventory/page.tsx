@@ -8,7 +8,11 @@ import { cookies } from 'next/headers'
 interface pageProps {}
 
 const page: FC<pageProps> = async ({}) => {
+  const sleep = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms))
+
   const supabase = await createServerComponentClient<Database>({ cookies })
+  await sleep(1000)
   const { data: products, error } = await supabase
     .from('products')
     .select(`*,categories(name)`)

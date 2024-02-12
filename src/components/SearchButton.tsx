@@ -9,31 +9,40 @@ import {
   CommandItem,
   CommandList
 } from '@/components/ui/Command'
+import { QUICK_ACCESS } from '@/config/quick-access'
 import { isMacOs } from '@/lib/utils'
-import { FC, useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { FC, useCallback, useEffect, useState } from 'react'
 import Icons from './ui/Icons'
 
 interface SearchButtonProps {}
 
 const SearchButton: FC<SearchButtonProps> = ({}) => {
-  const [open, setOpen] = useState(false)
+  const router = useRouter()
+  const [isOpen, setIsOpen] = useState(false)
   let isMac
+
   useEffect(() => {
     isMac = isMacOs()
     const down = (e: KeyboardEvent) => {
       if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault()
-        setOpen((open) => !open)
+        setIsOpen((open) => !open)
       }
     }
     document.addEventListener('keydown', down)
     return () => document.removeEventListener('keydown', down)
   }, [])
 
+  const runCommand = useCallback((command: () => unknown) => {
+    setIsOpen(false)
+    command()
+  }, [])
+
   return (
     <>
       <Button
-        onClick={() => setOpen(true)}
+        onClick={() => setIsOpen(true)}
         variant='outline'
         className='relative h-9 w-9 px-4 p-0 md:h-10 md:w-60 md:justify-start md:px-3 md:py-2 text-sm text-muted-foreground'
       >
@@ -47,14 +56,28 @@ const SearchButton: FC<SearchButtonProps> = ({}) => {
           K
         </kbd>
       </Button>
-      <CommandDialog position='top' open={open} onOpenChange={setOpen}>
+      <CommandDialog position='top' open={isOpen} onOpenChange={setIsOpen}>
         <CommandInput placeholder='Busca algun producto del inventario..' />
         <CommandList>
           <CommandEmpty>No se encontraron resultados.</CommandEmpty>
-          <CommandGroup heading='Suggestions'>
-            <CommandItem>Calendar</CommandItem>
-            <CommandItem>Search Emoji</CommandItem>
-            <CommandItem>Calculator</CommandItem>
+          <CommandGroup heading='Accesos rapidos'>
+            <CommandItem
+              value='Inicio'
+              onSelect={() => runCommand(() => router.push('/'))}
+            >
+              <Icons.star className='mr-2 h-4 w-4' />
+              Inicio
+            </CommandItem>
+            {QUICK_ACCESS.map(({ title, href }, ind) => (
+              <CommandItem
+                key={ind}
+                value={title}
+                onSelect={() => runCommand(() => router.push(href))}
+              >
+                <Icons.star className='mr-2 h-4 w-4' />
+                {title}
+              </CommandItem>
+            ))}
           </CommandGroup>
         </CommandList>
       </CommandDialog>

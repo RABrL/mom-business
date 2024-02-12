@@ -9,7 +9,7 @@ export default function SignIn() {
     <div className='flex flex-1 flex-col justify-center w-[330px] sm:w-[384px]'>
       <div className='mb-10'>
         <h1 className='mt-8 mb-2 text-background-foreground text-2xl lg:text-3xl'>
-          Bienvenida de vuelta
+          Bienvenido/a de vuelta
         </h1>
         <h2 className='text-sm text-muted-foreground'>
           Elige tu metodo de inicio de sesión preferido
